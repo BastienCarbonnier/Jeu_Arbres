@@ -10,6 +10,8 @@ function init(){
 	expGraph.setAttribute('class','exp');
 	expGraph.innerHTML = expression;
 
+	interface.appendChild(expGraph);
+
 
 }
 
