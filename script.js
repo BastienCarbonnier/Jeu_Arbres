@@ -18,36 +18,37 @@ function init(){
 var Expression = function (){};
 
 function Expression (elt1,symbole,elt2){
-    
+
 }
 function trouverElement(exp){
     var elt = new String("");
     var neg =false;
-    
+
     var ind_par_f = 0;
     var ind_par_o = 0;
-    
-    
+
+
     if (exp[0] === "¬"){
         neg = true;
-        
+
         ind_par_f = trouverParentheseFermante(exp,1);
         ind_par_o = 1;
-        
+
     }
     else if (exp[0] === "("){
         ind_par_f = trouverParentheseFermante(exp,0);
         ind_par_o = 0;
     }
-    
+
     if (ind_par_f==0)
         elt = exp;
     else
         elt = exp.substr(ind_par_o,ind_par_f);
-    
+
 }
 function decoupage(){
-    
+
+		
 }
 
 function trouverParentheseFermante(expression, indice){
@@ -64,4 +65,3 @@ function trouverParentheseFermante(expression, indice){
 	}
 	return (new Number(i)+new Number(indice));
 }
-
