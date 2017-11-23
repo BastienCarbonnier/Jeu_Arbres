@@ -13,7 +13,7 @@ function init(){
 	interface.appendChild(expGraph);
 	exp = parserExpressionEnDeux("(a∧b)∧¬(bvc)");
 	afficherExpression(exp);
-	
+
 	exp = parserExpressionEnDeux("¬a");
 	afficherExpression(exp);
 	exp = parserExpressionEnDeux("¬a∧b");
