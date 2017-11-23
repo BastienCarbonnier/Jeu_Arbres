@@ -13,6 +13,7 @@ function init(){
 	interface.appendChild(expGraph);
 	exp = parserExpressionEnDeux("(a∧b)∧¬(bvc)");
 	afficherExpression(exp);
+	
 	exp = parserExpressionEnDeux("¬a");
 	afficherExpression(exp);
 	exp = parserExpressionEnDeux("¬a∧b");
@@ -27,7 +28,6 @@ function Element (val,neg,taille){
 	this.taille = taille;
 }
 function Expression (elt1,symbole,elt2){
-<<<<<<< HEAD
 	this.elt1 = elt1;
 	this.symbole = symbole;
 	this.elt2 = elt2;
@@ -70,39 +70,6 @@ function afficherExpression(exp){
 	console.log(exp.elt1.val + "     " +exp.symbole + "      "+ exp.elt2.val);
 
 	console.log(exp.elt1.neg + "     " +exp.symbole + "      "+ exp.elt2.neg);
-=======
-
-}
-function trouverElement(exp){
-    var elt = new String("");
-    var neg =false;
-
-    var ind_par_f = 0;
-    var ind_par_o = 0;
-
-
-    if (exp[0] === "¬"){
-        neg = true;
-
-        ind_par_f = trouverParentheseFermante(exp,1);
-        ind_par_o = 1;
-
-    }
-    else if (exp[0] === "("){
-        ind_par_f = trouverParentheseFermante(exp,0);
-        ind_par_o = 0;
-    }
-
-    if (ind_par_f==0)
-        elt = exp;
-    else
-        elt = exp.substr(ind_par_o,ind_par_f);
-
-}
-function decoupage(){
-
-		
->>>>>>> 0edb8c4c1f63e4f55aae37a7e0a627c44666af67
 }
 
 
