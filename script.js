@@ -19,9 +19,13 @@ function init(){
 	*/
 	/* Test resoudreEquation */
 	//testResoudreEquation("av(c∧b)");
-	testResoudreEquation("¬(a→(c∧b))");
+	//testResoudreEquation("¬(a→(c∧b))");
+	testParserExpression("¬(a→(¬c∧b))");
 }
-
+function testParserExpression(expression){
+	exp = parserExpression(expression);
+	afficherExpressionAffichage(exp);
+}
 function testParserExpressionEnDeux(expression){
 	exp = parserExpressionEnDeux(expression);
 	afficherExpression(exp);
@@ -42,9 +46,43 @@ function Expression (elt1,symbole,elt2,neg){
 	this.elt2 = elt2;
 	this.neg = neg;
 }
+function ExpressionAffichage (elt1,symbole,elt2){
+	this.elt1 = elt1;
+	this.symbole = symbole;
+	this.elt2 = elt2;
+}
 
+function afficherExpressionAffichage(exp){
+	console.log(exp.elt1 + "     " +exp.symbole + "      "+ exp.elt2);
+}
+
+function recupererStringElement (elt){
+	var val = elt.val;
+	var res="";
+	if (elt.neg){
+		res += "¬";
+		if(val.length>1)
+			res += "("+val+")";
+		else
+			res += val;
+	}
+	else
+		res +=val;
+	return res;
+}
 function parserExpression (exp){
-
+	e = resoudreEquation(exp); // Renvoi une Expression
+	afficherExpression(e);
+	if (e.neg){
+		elt1_string = recupererStringElement(e.elt1);
+		symbole = "¬";
+	}
+	else {
+		elt1_string = recupererStringElement(e.elt1);
+		elt2_string = recupererStringElement(e.elt2);
+		symbole = e.symbole;
+	}
+	return new ExpressionAffichage(elt1_string,symbole,elt2_string);
 }
 function inverserElement (elt){
 	return new Element(elt.val, !elt.neg, elt.taille);
