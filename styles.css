@@ -6,11 +6,25 @@
 }
 
 .texteForm{
-	border: solid 1px;
+	/*border: solid 1px;*/
 	border-radius: 5px;
 	padding: 5px;
+	text-align : center;
 }
 
 .texteForm:hover{
 	background-color : lightgrey;
+}
+
+.filsGauche{
+	float : left;
+}
+
+.filsDroit{
+	float : right;
+}
+
+.element{
+	margin : 20px;
+	text-align : center;
 }

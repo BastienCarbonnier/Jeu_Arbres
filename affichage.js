@@ -1,13 +1,38 @@
-function affichage(str1, str2, op, neg){
-	//switch
-}
+function affichage(formule){
+	var exp = parserExpression(formule);
+	var elem1 = exp.elt1;
+	var elem2 = exp.elt2;
+	var symb = exp.symb;
 
-function afficheElem(parent, formule){
+	if(symb==="∧"){
+		
+	}
+
+}
+	
+
+function afficheElem(parent, formule, pos){
 
 	var element = document.createElement('div'); //div global
 	element.setAttribute('class','element');
+	element.setAttribute('onclick','affichage("'+formule+'");');
+
+	console.log(pos);
+	if(pos==="gauche"){
+		element.classList.add('filsGauche');
+		element.innerHTML = "<b>/</b>" + element.innerHTML;
+	}
+	if(pos==="droite"){
+		element.classList.add('filsDroit');
+		element.innerHTML = "<b>\\</b>" + element.innerHTML;
+	}
+
+	if(pos==="et"){
+		element.innerHTML = "<b>|</b>" + element.innerHTML;
+	}
 
 	var divFormules = document.createElement('div'); //div d'affichage des formules
+	divFormules.setAttribute('class','formules')
 
 	var texteForm = document.createElement('div'); //affichage première formule
 	texteForm.setAttribute('class','texteForm');
@@ -26,17 +51,18 @@ function afficheElem(parent, formule){
 }
 
 function affichePremierElem(formule){
-	afficheElem(interface, formule)
+	afficheElem(interface, formule, "neutre")
 }
 
-function affichageOu(el){
+function affichageOu(el, form1, form2){
 	divFils = el.lastChild;
-	console.log(divFils);
-	afficheElem(divFils,"test fils gauche");
-	afficheElem(divFils,"test fils droit");
+	afficheElem(divFils,form1,"gauche");
+	afficheElem(divFils,form2,"droite");
 
 }
 
-function affichageEt(el){
-
+function affichageEt(el, form1, form2){
+	divFils = el.lastChild;
+	afficheElem(divFils,form1,"et");
+	afficheElem(divFils,form2);
 }
