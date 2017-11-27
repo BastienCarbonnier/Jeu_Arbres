@@ -6,11 +6,7 @@ function init(){
 	var expression ="¬(p→((p→q)→q))";
 	interface = document.getElementById("interface");
 
-	var expGraph = document.createElement('p');
-	expGraph.setAttribute('class','exp');
-	expGraph.innerHTML = expression;
-
-	interface.appendChild(expGraph);
+	affichePremierElem(expression);
 
 
 }

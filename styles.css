@@ -1,0 +1,16 @@
+#interface {
+
+    display: flex;
+    justify-content: center;
+
+}
+
+.texteForm{
+	border: solid 1px;
+	border-radius: 5px;
+	padding: 5px;
+}
+
+.texteForm:hover{
+	background-color : lightgrey;
+}
