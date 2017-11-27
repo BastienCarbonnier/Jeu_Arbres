@@ -10,10 +10,10 @@ function init(){
 	interface.appendChild(expGraph);
 
 	/** Test parserExpressionEnDeux
-		testExpression("(a∧b)∧¬(bvc)");
-		testExpression("¬a");
-		testExpression("¬a∧b");
-		testExpression("¬(av(c∧b))");
+	testExpression("(a∧b)∧¬(bvc)");
+	testExpression("¬a");
+	testExpression("¬a∧b");
+	testExpression("¬(av(c∧b))");
 	*/
 	/* Test resoudreEquation */
 	//testResoudreEquation("av(c∧b)");
@@ -96,40 +96,40 @@ function resoudreEquation(exp){
 		//afficherExpression(e2);
 		switch(e2.symbole) {
 			case "→":
-				elt1 = e2.elt1;
-				elt2 = inverserElement(e2.elt2);
-				symbole = "∧";
-				break;
+			elt1 = e2.elt1;
+			elt2 = inverserElement(e2.elt2);
+			symbole = "∧";
+			break;
 			case "∧":
-				elt1 = inverserElement(e2.elt1);
-				elt2 = inverserElement(e2.elt2);
-				symbole = "∨";
-				break;
+			elt1 = inverserElement(e2.elt1);
+			elt2 = inverserElement(e2.elt2);
+			symbole = "∨";
+			break;
 			case "∨":
-				elt1 = inverserElement(e2.elt1);
-				elt2 = inverserElement(e2.elt2);
-				symbole = "∧";
-				break;
+			elt1 = inverserElement(e2.elt1);
+			elt2 = inverserElement(e2.elt2);
+			symbole = "∧";
+			break;
 			case "¬":
-				elt1 = inverserElement(e2.elt1);
-				symbole = "";
-				neg = true;
-				break;
+			elt1 = inverserElement(e2.elt1);
+			symbole = "";
+			neg = true;
+			break;
 			default:
-				console.log("Erreur lors de la vérification des symboles");
+			console.log("Erreur lors de la vérification des symboles");
 		}
 	}
 	else {
 		switch(e.symbole) {
 			case "→":
-				elt1 = inverserElement(e.elt1);
-				elt2 = e.elt2;
-				symbole = "∨";
-				break;
+			elt1 = inverserElement(e.elt1);
+			elt2 = e.elt2;
+			symbole = "∨";
+			break;
 			default:
-				elt1 = e.elt1;
-				elt2 = e.elt2;
-				symbole = e.symbole;
+			elt1 = e.elt1;
+			elt2 = e.elt2;
+			symbole = e.symbole;
 		}
 	}
 	return new Expression(elt1,symbole,elt2,neg);
