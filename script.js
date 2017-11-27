@@ -7,7 +7,7 @@ function init(){
 
 	affichePremierElem(expression);
 
-	interface.appendChild(expGraph);
+	
 
 	/** Test parserExpressionEnDeux
 	testExpression("(a∧b)∧¬(bvc)");
