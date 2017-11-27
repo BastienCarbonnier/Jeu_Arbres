@@ -2,12 +2,10 @@ var op =['→','¬','∧','∨'];
 
 
 function init(){
-	var expression ="¬(p→((p→q)→q))";
+	var expression ="¬¬(p→((p→q)→q))";
 	interface = document.getElementById("interface");
 
 	affichePremierElem(expression);
-
-	
 
 	/** Test parserExpressionEnDeux
 	testExpression("(a∧b)∧¬(bvc)");
@@ -18,7 +16,7 @@ function init(){
 	/* Test resoudreEquation */
 	//testResoudreEquation("av(c∧b)");
 	//testResoudreEquation("¬(a→(c∧b))");
-	testParserExpression("¬(a→(¬c∧b))");
+	//testParserExpression("¬(a→(¬c∧b))");
 }
 function testParserExpression(expression){
 	exp = parserExpression(expression);
@@ -69,8 +67,11 @@ function recupererStringElement (elt){
 	return res;
 }
 function parserExpression (exp){
-	e = resoudreEquation(exp); // Renvoi une Expression
-	afficherExpression(e);
+
+	var e = resoudreEquation(exp); // Renvoi une Expression
+
+	var elt1_string,elt2_string="";
+
 	if (e.neg){
 		elt1_string = recupererStringElement(e.elt1);
 		symbole = "¬";
@@ -80,56 +81,59 @@ function parserExpression (exp){
 		elt2_string = recupererStringElement(e.elt2);
 		symbole = e.symbole;
 	}
+
 	return new ExpressionAffichage(elt1_string,symbole,elt2_string);
 }
 function inverserElement (elt){
 	return new Element(elt.val, !elt.neg, elt.taille);
 }
 function resoudreEquation(exp){
-	e = parserExpressionEnDeux(exp);
-
+	var e = parserExpressionEnDeux(exp);
+	console.log("expression : "+exp);
+	console.log("Premier parsage : ");
+	afficherExpression(e);
 	var symbole;
 	var neg =false;
 	if (e.neg){
 		e2 = parserExpressionEnDeux(e.elt1.val);
-		//console.log("Je suis dans resoudreEquation");
-		//afficherExpression(e2);
+		console.log("Deuxième parsage : ");
+		afficherExpression(e2);
 		switch(e2.symbole) {
 			case "→":
-			elt1 = e2.elt1;
-			elt2 = inverserElement(e2.elt2);
-			symbole = "∧";
+				elt1 = e2.elt1;
+				elt2 = inverserElement(e2.elt2);
+				symbole = "∧";
 			break;
 			case "∧":
-			elt1 = inverserElement(e2.elt1);
-			elt2 = inverserElement(e2.elt2);
-			symbole = "∨";
+				elt1 = inverserElement(e2.elt1);
+				elt2 = inverserElement(e2.elt2);
+				symbole = "∨";
 			break;
 			case "∨":
-			elt1 = inverserElement(e2.elt1);
-			elt2 = inverserElement(e2.elt2);
-			symbole = "∧";
+				elt1 = inverserElement(e2.elt1);
+				elt2 = inverserElement(e2.elt2);
+				symbole = "∧";
 			break;
 			case "¬":
-			elt1 = inverserElement(e2.elt1);
-			symbole = "";
-			neg = true;
+				elt1 = inverserElement(e2.elt1);
+				symbole = "";
+				neg = true;
 			break;
 			default:
-			console.log("Erreur lors de la vérification des symboles");
+				console.log("Erreur lors de la vérification des symboles");
 		}
 	}
 	else {
 		switch(e.symbole) {
 			case "→":
-			elt1 = inverserElement(e.elt1);
-			elt2 = e.elt2;
-			symbole = "∨";
+				elt1 = inverserElement(e.elt1);
+				elt2 = e.elt2;
+				symbole = "∨";
 			break;
 			default:
-			elt1 = e.elt1;
-			elt2 = e.elt2;
-			symbole = e.symbole;
+				elt1 = e.elt1;
+				elt2 = e.elt2;
+				symbole = e.symbole;
 		}
 	}
 	return new Expression(elt1,symbole,elt2,neg);
@@ -139,8 +143,8 @@ function resoudreEquation(exp){
 function parserExpressionEnDeux(exp_string){
 	var symbole;
 	var neg =false;
+
 	elt1 = trouverElement(exp_string);
-	//console.log("Je suis dans parserExpressionEnDeux	" + exp_string);
 
 	if ((elt1.taille === exp_string.length) && elt1.neg){
 		symbole = "¬";
@@ -151,9 +155,8 @@ function parserExpressionEnDeux(exp_string){
 		symbole = exp_string[elt1.taille];
 		elt2 = trouverElement(exp_string.substr(elt1.taille+1));
 	}
-	e = new Expression (elt1, symbole, elt2, neg);
-	//afficherExpression(e);
-	return e;
+
+	return new Expression (elt1, symbole, elt2, neg);
 
 }
 function afficherExpression(exp){
@@ -164,7 +167,7 @@ function afficherExpression(exp){
 
 
 function trouverElement(exp){
-	var elt = new String("");
+	var elt = "";
 	var neg =false;
 	var taille = 0;
 	var ind_par_f = 0;
@@ -176,30 +179,27 @@ function trouverElement(exp){
 		ind_par_f = trouverParentheseFermante(exp,1)-1;
 		ind_par_o = 1;
 		taille += 1;
+
+		elt = exp.substr(ind_par_o+1,ind_par_f-1);
+		taille = taille + elt.length + 2;
 	}
 	else if (exp[0] === "("){
 		ind_par_f = trouverParentheseFermante(exp,0);
 		ind_par_o = 0;
-	}
-	else if (exp[0] === "¬"){
-		neg = true;
-		elt = exp[1];
-		taille = 2;
-		return new Element(elt,neg,taille);
-	}
-	else{
-		elt = exp[0];
-		return new Element(elt,neg,1);
-	}
 
-	if (ind_par_f==0){
-		elt = exp;
-		taille = exp.length;
-	}
-	else{
 		elt = exp.substr(ind_par_o+1,ind_par_f-1);
 		taille = taille + elt.length + 2;
 	}
+	else if (exp[0] === "¬"){
+		neg = true;
+		elt = exp.substr(1);
+		taille = exp.length;
+	}
+	else{
+		elt = exp[0];
+		taille = 1;
+	}
+
 	return new Element(elt,neg,taille);
 }
 
