@@ -1,12 +1,23 @@
-function affichage(formule){
+function affichage(event, formule){
+
 	var exp = parserExpression(formule);
 	var elem1 = exp.elt1;
 	var elem2 = exp.elt2;
-	var symb = exp.symb;
+	var symb = exp.symbole;
+	var el = event.target.parentElement.parentElement;
 
 	if(symb==="∧"){
-		
+		affichageEt(el,elem1,elem2);
 	}
+	if(symb==="∨"){
+		affichageOu(el,elem1,elem2);
+	}
+
+	//var txt = el.getElementsByClass("texteForm")[0].innerHTML;
+
+	console.log(txt);
+
+
 
 }
 	
@@ -15,7 +26,7 @@ function afficheElem(parent, formule, pos){
 
 	var element = document.createElement('div'); //div global
 	element.setAttribute('class','element');
-	element.setAttribute('onclick','affichage("'+formule+'");');
+	
 
 	console.log(pos);
 	if(pos==="gauche"){
@@ -32,11 +43,12 @@ function afficheElem(parent, formule, pos){
 	}
 
 	var divFormules = document.createElement('div'); //div d'affichage des formules
-	divFormules.setAttribute('class','formules')
+	divFormules.setAttribute('class','formules');
 
 	var texteForm = document.createElement('div'); //affichage première formule
 	texteForm.setAttribute('class','texteForm');
 	texteForm.innerHTML = formule;
+	texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
 
 	divFormules.appendChild(texteForm);
 
