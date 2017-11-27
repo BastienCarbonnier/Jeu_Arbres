@@ -9,13 +9,14 @@ function affichage(event, formule){
 	if(symb==="∧"){
 		affichageEt(el,elem1,elem2);
 	}
-	if(symb==="∨"){
+	else if(symb==="∨"){
 		affichageOu(el,elem1,elem2);
 	}
+	else
+		affichageEt(el,elem1,elem2);
 
 	//var txt = el.getElementsByClass("texteForm")[0].innerHTML;
 
-	console.log(txt);
 
 
 
