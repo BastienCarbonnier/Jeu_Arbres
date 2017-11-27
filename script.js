@@ -1,6 +1,5 @@
 var op =['→','¬','∧','∨'];
 
-
 function init(){
 	var expression ="¬¬(p→((p→q)→q))";
 	interface = document.getElementById("interface");
@@ -17,18 +16,6 @@ function init(){
 	//testResoudreEquation("av(c∧b)");
 	//testResoudreEquation("¬(a→(c∧b))");
 	//testParserExpression("¬(a→(¬c∧b))");
-}
-function testParserExpression(expression){
-	exp = parserExpression(expression);
-	afficherExpressionAffichage(exp);
-}
-function testParserExpressionEnDeux(expression){
-	exp = parserExpressionEnDeux(expression);
-	afficherExpression(exp);
-}
-function testResoudreEquation(expression){
-	exp = resoudreEquation(expression);
-	afficherExpression(exp);
 }
 
 function Element (val,neg,taille){
@@ -69,8 +56,9 @@ function recupererStringElement (elt){
 function parserExpression (exp){
 
 	var e = resoudreEquation(exp); // Renvoi une Expression
-
-	var elt1_string,elt2_string="";
+	console.log("Dans parser Expression : e = ");
+	afficherExpression(e);
+	var elt1_string, elt2_string="";
 
 	if (e.neg){
 		elt1_string = recupererStringElement(e.elt1);
@@ -159,12 +147,6 @@ function parserExpressionEnDeux(exp_string){
 	return new Expression (elt1, symbole, elt2, neg);
 
 }
-function afficherExpression(exp){
-	console.log(exp.elt1.val + "     " +exp.symbole + "      "+ exp.elt2.val);
-
-	console.log(exp.elt1.neg + "     " +exp.symbole + "      "+ exp.elt2.neg);
-}
-
 
 function trouverElement(exp){
 	var elt = "";
@@ -209,11 +191,30 @@ function trouverParentheseFermante(exp, indice){
 	exp = exp.substr(indice);
 	for (i in exp){
 		if (exp[i]==="(")
-		par++;
+			par++;
 		else if (exp[i]===")")
-		par--;
+			par--;
 		if (par == 0)
-		break;
+			break;
 	}
 	return (new Number(i)+new Number(indice));
+}
+
+function afficherExpression(exp){
+	console.log(exp.elt1.val + "     " +exp.symbole + "      "+ exp.elt2.val);
+
+	console.log(exp.elt1.neg + "     " +exp.symbole + "      "+ exp.elt2.neg);
+}
+
+function testParserExpression(expression){
+	exp = parserExpression(expression);
+	afficherExpressionAffichage(exp);
+}
+function testParserExpressionEnDeux(expression){
+	exp = parserExpressionEnDeux(expression);
+	afficherExpression(exp);
+}
+function testResoudreEquation(expression){
+	exp = resoudreEquation(expression);
+	afficherExpression(exp);
 }
