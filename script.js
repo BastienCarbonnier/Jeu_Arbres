@@ -267,7 +267,7 @@ function verifMeilleurScore(nb_mis, exp_string){
 	return false;
 
 }
-
+// A voir pour la suite ...
 function calculerNbEtapesMax(exp_string){
 	if (exp_string.length <=2)
 		return 0;
