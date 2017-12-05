@@ -5,6 +5,10 @@ function affichage(event, formule){
 	var elem2 = exp.elt2;
 	var symb = exp.symbole;
 	var el = event.target.parentElement.parentElement;
+	var parent = el.parentElement;
+
+	parent.removeChild(el);
+	parent.appendChild(el);
 
 	if(symb==="∧"){
 		affichageEt(el,elem1,elem2);
@@ -29,7 +33,6 @@ function afficheElem(parent, formule, pos){
 	element.setAttribute('class','element');
 	
 
-	console.log(pos);
 	if(pos==="gauche"){
 		element.classList.add('filsGauche');
 		element.innerHTML = "<b>/</b>" + element.innerHTML;
@@ -40,15 +43,17 @@ function afficheElem(parent, formule, pos){
 	}
 
 	if(pos==="et"){
-		element.innerHTML = "<b>|</b>" + element.innerHTML;
+		//element.innerHTML = "<b>|</b>" + element.innerHTML;
 	}
 
 	var divFormules = document.createElement('div'); //div d'affichage des formules
 	divFormules.setAttribute('class','formules');
 
+
 	var texteForm = document.createElement('div'); //affichage première formule
 	texteForm.setAttribute('class','texteForm');
 	texteForm.innerHTML = formule;
+
 	texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
 
 	divFormules.appendChild(texteForm);
@@ -76,6 +81,7 @@ function affichageOu(el, form1, form2){
 
 function affichageEt(el, form1, form2){
 	divFils = el.lastChild;
+	divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
 	afficheElem(divFils,form1,"et");
 	afficheElem(divFils,form2);
 }
