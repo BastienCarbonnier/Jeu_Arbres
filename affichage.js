@@ -5,6 +5,7 @@ function affichage(event, formule){
 	var elem2 = exp.elt2;
 	var symb = exp.symbole;
 	var el = event.target.parentElement.parentElement;
+	console.log(el);
 	var parent = el.parentElement;
 
 	parent.removeChild(el);
@@ -12,7 +13,7 @@ function affichage(event, formule){
 
 
 	//on récupère les formules précédentes
-	var divForm = parent.children[0].children[1];
+	var divForm = el.children[1];
 
 	var ListForm = [];
 
