@@ -1,3 +1,6 @@
+var aVerif = [];
+var nbBranche = 1;
+
 function affichage(event, formule){
 
 	var exp = parserExpression(formule);
@@ -74,9 +77,11 @@ function afficheElem(parent, formule, pos, listeForm){
 
 	//Activation des event
 	for(var i=0; i<divFormules.children.length; i++){ //pour toutes les formules
-		var form = divFormules.children[i]
+		var form = divFormules.children[i];
 		if(!estUnLitteral(form.innerHTML)){
 			form.setAttribute('onclick','affichage(event,"'+form.innerHTML+'");');
+		}else{
+			form.setAttribute('onclick','contradiction(event);');
 		}
 	}
 
@@ -87,6 +92,8 @@ function afficheElem(parent, formule, pos, listeForm){
 
 	if(!estUnLitteral(formule)){
 		texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+	}else{
+		texteForm.setAttribute('onclick','contradiction(event);');
 	}
 
 	divFormules.appendChild(texteForm);
@@ -128,6 +135,7 @@ function affichageOu(el, form1, form2, listeForm){
 	divFils = el.lastChild;
 	afficheElem(divFils,form1,"gauche",listeForm);
 	afficheElem(divFils,form2,"droite",listeForm);
+	nbBranche++; //on obtient une branche supplémentaire
 
 }
 
@@ -153,4 +161,55 @@ function estUnLitteral(txt){
 		default : 
 			return false;
 	}
+}
+
+function contradiction(event){
+	
+	elem = event.target;
+	switch(aVerif.length){
+		case 0 :
+			aVerif.push(elem);
+			elem.classList.add('actif');
+			break;
+		case 1 :
+			if(aVerif[0].parentElement == elem.parentElement){ //si dans la même branche
+				var e1 = aVerif[0].innerHTML;
+				var e2 = elem.innerHTML;
+				if(e1.slice(1)===e2 || e2.slice(1)===e1){ //si pareil sauf premier char (le non)
+					console.log("contradiction ! ");
+					liste  = [];
+					affichageEt(elem.parentElement.parentElement,"⊥","",liste);
+					nbBranche--;
+					if (nbBranche==0) {
+						alert("Toutes les contradictions ont été trouvées, la formule est valide !");
+					}
+					aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
+					elem.setAttribute('onclick','');
+
+					resetAVerif();
+				}else{
+					resetAVerif();
+				}
+				
+			}else{
+				resetAVerif();
+				aVerif.push(elem);
+				elem.classList.add('actif');
+			}
+			break;
+		default:
+			resetAVerif();
+
+	}
+}
+
+function resetAVerif(){
+	while(aVerif.length!=0){
+		aVerif[aVerif.length - 1].classList.remove('actif');
+		aVerif.pop();
+	}
+}
+
+function estInverse(a,b){
+
 }
