@@ -75,7 +75,9 @@ function afficheElem(parent, formule, pos, listeForm){
 	//Activation des event
 	for(var i=0; i<divFormules.children.length; i++){ //pour toutes les formules
 		var form = divFormules.children[i]
-		form.setAttribute('onclick','affichage(event,"'+form.innerHTML+'");');
+		if(!estUnLitteral(form.innerHTML)){
+			form.setAttribute('onclick','affichage(event,"'+form.innerHTML+'");');
+		}
 	}
 
 
@@ -83,7 +85,9 @@ function afficheElem(parent, formule, pos, listeForm){
 	texteForm.setAttribute('class','texteForm');
 	texteForm.innerHTML = formule;
 
-	texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+	if(!estUnLitteral(formule)){
+		texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+	}
 
 	divFormules.appendChild(texteForm);
 
@@ -133,4 +137,20 @@ function affichageEt(el, form1, form2, listeForm){
 	//divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
 	afficheElem(divFils,form1,"et",listeForm);
 	suiteEt(divFils,form2);
+}
+
+function estUnLitteral(txt){
+	
+	switch(txt.length){
+		case 1 :
+			return true;
+		case 2 :
+			if (txt[0]==='¬'){
+				return true;
+			}else{
+				return false;
+			}
+		default : 
+			return false;
+	}
 }
