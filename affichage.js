@@ -21,6 +21,7 @@ function affichage(event, formule){
 		if (divForm.children[i].innerHTML!==formule) {
 			ListForm.push(divForm.children[i]);
 		}
+		divForm.children[i].setAttribute('onclick','');
 	}
 
 
@@ -69,6 +70,12 @@ function afficheElem(parent, formule, pos, listeForm){
 	divFormules.setAttribute('class','formules');
 	for(var i=0; i<listeForm.length; i++){
 		divFormules.appendChild(listeForm[i].cloneNode(true));
+	}
+
+	//Activation des event
+	for(var i=0; i<divFormules.children.length; i++){ //pour toutes les formules
+		var form = divFormules.children[i]
+		form.setAttribute('onclick','affichage(event,"'+form.innerHTML+'");');
 	}
 
 
