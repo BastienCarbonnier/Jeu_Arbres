@@ -209,7 +209,3 @@ function resetAVerif(){
 		aVerif.pop();
 	}
 }
-
-function estInverse(a,b){
-
-}
