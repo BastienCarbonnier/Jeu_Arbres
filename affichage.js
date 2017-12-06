@@ -11,21 +11,17 @@ function affichage(event, formule){
 	parent.appendChild(el);
 
 
-	//console.log(parent.children);
 	//on récupère les formules précédentes
-	var listeElem = parent.children;
+	var divForm = parent.children[0].children[1];
 
 	var ListForm = [];
 
-	for(var i =1; i<listeElem.length -1; i++){
-		var sousListe = listeElem[i].children[0]
-		//console.log(sousListe);
-		for(var j=0; j<sousListe.children.length; j++){
-			ListForm.push(sousListe.children[j]);
+	for(var i =0; i<divForm.children.length; i++){
+		if (divForm.children[i].innerHTML!==formule) {
+			ListForm.push(divForm.children[i]);
 		}
 	}
 
-	console.log(ListForm);
 
 
 	if(symb==="∧"){
@@ -61,7 +57,11 @@ function afficheElem(parent, formule, pos, listeForm){
 	}
 
 	if(pos==="et"){
-		//element.innerHTML = "<b>|</b>" + element.innerHTML;
+		element.innerHTML = "<b>|</b>" + element.innerHTML;
+	}
+
+	if(pos==="neutre"){
+		element.innerHTML = "<b></b>" + element.innerHTML;
 	}
 
 	var divFormules = document.createElement('div'); //div d'affichage des formules
@@ -89,6 +89,24 @@ function afficheElem(parent, formule, pos, listeForm){
 	parent.appendChild(element);
 }
 
+function suiteEt(parent, formule){
+
+	var element = parent.children[0]; //première partie du ET
+	//console.log(parent.children);
+	
+	var divFormules = element.children[1]; //première partie de l'elem : divFormules
+	
+
+	var texteForm = document.createElement('div'); //affichage première formule
+	texteForm.setAttribute('class','texteForm');
+	texteForm.innerHTML = formule;
+
+	texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+
+	divFormules.appendChild(texteForm);
+
+}
+
 function affichePremierElem(formule){
 	liste = [];
 	afficheElem(interface, formule, "neutre",liste);
@@ -104,7 +122,7 @@ function affichageOu(el, form1, form2, listeForm){
 function affichageEt(el, form1, form2, listeForm){
 	divFils = el.lastChild;
 	listeVide = [];
-	divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
+	//divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
 	afficheElem(divFils,form1,"et",listeForm);
-	afficheElem(divFils,form2,"",listeVide);
+	suiteEt(divFils,form2);
 }
