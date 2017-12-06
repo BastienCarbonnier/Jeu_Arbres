@@ -24,7 +24,7 @@ var scores = new Array();
 
 
 function init(){
-	var expression ="¬¬(p→((p→q)→q))";
+	var expression ="((p→q)∧(q→p))∨¬(p∧¬q)∨(¬p∧q)";
 	interface = document.getElementById("interface");
 
 	affichePremierElem(expression);
@@ -43,6 +43,8 @@ function init(){
 	var expr2 = "(p∨(q→¬p))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))";
 */
 	var expr = obtenirFormuleAleatoire();
+	console.log("((p→q)∧(q→p))∨¬(p∧¬q)∨(¬p∧q)");
+	afficherExpression(resoudreEquation("((p→q)∧(q→p))∨¬(p∧¬q)∨(¬p∧q)"));
 
 }
 function reinitialiserScores(){
@@ -189,7 +191,8 @@ function parserExpressionEnDeux(exp_string){
 	}
 	else{
 		symbole = exp_string[elt1.taille];
-		elt2 = trouverElement(exp_string.substr(elt1.taille+1));
+		var exp = "("+exp_string.substr(elt1.taille+1)+")";
+		elt2 = trouverElement(exp);
 	}
 
 	return new Expression (elt1, symbole, elt2, neg);
@@ -233,6 +236,7 @@ function trouverElement(exp){
 		elt = exp[0];
 		taille = 1;
 	}
+
 
 	return new Element(elt,neg,taille);
 }
