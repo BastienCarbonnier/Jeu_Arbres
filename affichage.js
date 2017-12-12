@@ -44,13 +44,13 @@ function affichage(event, formule){
 
 
 }
-	
+
 
 function afficheElem(parent, formule, pos, listeForm){
 
 	var element = document.createElement('div'); //div global
 	element.setAttribute('class','element');
-	
+
 
 	if(pos==="gauche"){
 		element.classList.add('filsGauche');
@@ -112,9 +112,9 @@ function suiteEt(parent, formule){
 
 	var element = parent.children[0]; //première partie du ET
 	//console.log(parent.children);
-	
+
 	var divFormules = element.children[1]; //première partie de l'elem : divFormules
-	
+
 
 	var texteForm = document.createElement('div'); //affichage première formule
 	texteForm.setAttribute('class','texteForm');
@@ -148,7 +148,7 @@ function affichageEt(el, form1, form2, listeForm){
 }
 
 function estUnLitteral(txt){
-	
+
 	switch(txt.length){
 		case 1 :
 			return true;
@@ -158,13 +158,13 @@ function estUnLitteral(txt){
 			}else{
 				return false;
 			}
-		default : 
+		default :
 			return false;
 	}
 }
 
 function contradiction(event){
-	
+
 	elem = event.target;
 	switch(aVerif.length){
 		case 0 :
@@ -190,7 +190,7 @@ function contradiction(event){
 				}else{
 					resetAVerif();
 				}
-				
+
 			}else{
 				resetAVerif();
 				aVerif.push(elem);
@@ -231,7 +231,7 @@ function viderInterface(){
 function changerFormule(){
 	var dropList = document.getElementById("choix");
 	var choix = dropList.value;
-
+	localStorage.setItem("formule",choix);
 	viderInterface();
     affichePremierElem(choix);
     nbBranche = 0;
