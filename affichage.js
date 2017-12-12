@@ -209,3 +209,30 @@ function resetAVerif(){
 		aVerif.pop();
 	}
 }
+
+/*Met en place la liste des formuales dans le menu déroulant
+*/
+function afficheMenu(){
+	var dropList = document.getElementById("choix");
+	console.log(dropList);
+
+	for(var i=0; i<formules.length; i++){
+		var form = document.createElement('option'); //affichage première formule
+		form.innerHTML = formules[i];
+		dropList.appendChild(form);
+	}
+}
+
+function viderInterface(){
+	interface = document.getElementById("interface");
+	interface.innerHTML="";
+}
+
+function changerFormule(){
+	var dropList = document.getElementById("choix");
+	var choix = dropList.value;
+
+	viderInterface();
+    affichePremierElem(choix);
+
+}

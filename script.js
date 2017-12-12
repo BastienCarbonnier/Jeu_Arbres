@@ -26,6 +26,7 @@ function init() {
     localStorage.setItem("courante",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
+    afficheMenu();
     affichePremierElem(expression);
 
     /** Test parserExpressionEnDeux
