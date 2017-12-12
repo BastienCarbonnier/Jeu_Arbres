@@ -21,9 +21,8 @@ var formules = [
     "¬(((((s∧p)→(q∧r))∧(¬r∨¬q)∧p)∧(t∧(s→¬t)))→¬s)"
 ];
 
-var formule ="";
 function init() {
-    localStorage.setItem("courante",0);
+    localStorage.setItem("score_courant",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
     afficheMenu();
@@ -53,7 +52,7 @@ function getScores(){
     }
 }
 function getScoreMin(){
-    return Number(localStorage.getItem(formule));
+    return Number(localStorage.getItem(localStorage.getItem("formule")));
 }
 
 function reinitialiserScores() {
@@ -62,9 +61,9 @@ function reinitialiserScores() {
     }
 }
 function calculerScore(){
-    if (Number(localStorage.getItem("courante"))<getScoreMin()){
-        localStorage.setItem(formule,Number(localStorage.getItem("courante")));
-        console.log(localStorage.getItem("courante"));
+    if (Number(localStorage.getItem("score_courant"))<getScoreMin()){
+        localStorage.setItem(localStorage.getItem("formule"),Number(localStorage.getItem("score_courant")));
+        console.log(localStorage.getItem("score_courant"));
         return true;
     }
     return false;
@@ -104,9 +103,9 @@ function recupererStringElement(elt) {
 }
 function parserExpression(exp) {
 
-    localStorage.setItem("courante", Number(localStorage.getItem("courante"))+1);
+    localStorage.setItem("score_courant", Number(localStorage.getItem("score_courant"))+1);
     var e = resoudreEquation(exp); // Renvoi une Expression
-    console.log("score : "+localStorage.getItem("courante"));
+    console.log("score : "+localStorage.getItem("score_courant"));
     var elt1_string,
     elt2_string = "";
 
@@ -414,7 +413,7 @@ function calculerNbEtapesMax(exp_string) {
 
 function obtenirFormuleAleatoire() {
     var f = formules[Math.floor(Math.random() * formules.length)];
-    formule=f;
+    localStorage.setItem("formule",f);
     return f;
 }
 function testCalculerNbEtapes(exp) {
