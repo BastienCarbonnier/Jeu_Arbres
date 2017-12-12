@@ -234,7 +234,7 @@ function changerFormule(){
 	localStorage.setItem("formule",choix);
 	viderInterface();
     affichePremierElem(choix);
-    nbBranche = 0;
+    nbBranche = 1;
     aVerif = [];
 
 }
