@@ -48,6 +48,8 @@ function affichage(event, formule){
 
 function afficheElem(parent, formule, pos, listeForm){
 
+	resetAVerif();
+
 	var element = document.createElement('div'); //div global
 	element.setAttribute('class','element');
 
@@ -120,7 +122,11 @@ function suiteEt(parent, formule){
 	texteForm.setAttribute('class','texteForm');
 	texteForm.innerHTML = formule;
 
-	texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+	if(!estUnLitteral(formule)){
+		texteForm.setAttribute('onclick','affichage(event,"'+formule+'");');
+	}else{
+		texteForm.setAttribute('onclick','contradiction(event);');
+	}
 
 	divFormules.appendChild(texteForm);
 
