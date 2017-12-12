@@ -21,10 +21,11 @@ var formules = [
     "¬(((((s∧p)→(q∧r))∧(¬r∨¬q)∧p)∧(t∧(s→¬t)))→¬s)"
 ];
 
+var formule ="";
 function init() {
+    localStorage.setItem("courante",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
-
     affichePremierElem(expression);
 
     /** Test parserExpressionEnDeux
@@ -40,10 +41,18 @@ function init() {
     /*var expr = "¬(((A→C)∨(B→C))→((A∨B)→C))";
     var expr2 = "(p∨(q→¬p))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))";
     */
-   var exp = "(a∧b)";
-   console.log(supprimerParentheseInutile(exp));
 
-
+   // getScores();
+   // reinitialiserScores();
+   // getScores();
+}
+function getScores(){
+    for (var i in formules) {
+        console.log("Score max pour "+formules[i]+" = "+localStorage.getItem(formules[i]));
+    }
+}
+function getScoreMin(){
+    return Number(localStorage.getItem(formule));
 }
 
 function reinitialiserScores() {
@@ -51,7 +60,14 @@ function reinitialiserScores() {
         localStorage.setItem(formules[i], Infinity);
     }
 }
-
+function calculerScore(){
+    if (Number(localStorage.getItem("courante"))<getScoreMin()){
+        localStorage.setItem(formule,Number(localStorage.getItem("courante")));
+        console.log(localStorage.getItem("courante"));
+        return true;
+    }
+    return false;
+}
 function Element(val, neg, taille) {
     this.val = val;
     this.neg = neg;
@@ -87,8 +103,9 @@ function recupererStringElement(elt) {
 }
 function parserExpression(exp) {
 
+    localStorage.setItem("courante", Number(localStorage.getItem("courante"))+1);
     var e = resoudreEquation(exp); // Renvoi une Expression
-
+    console.log("score : "+localStorage.getItem("courante"));
     var elt1_string,
     elt2_string = "";
 
@@ -395,7 +412,9 @@ function calculerNbEtapesMax(exp_string) {
 }
 
 function obtenirFormuleAleatoire() {
-    return formules[Math.floor(Math.random() * formules.length)];
+    var f = formules[Math.floor(Math.random() * formules.length)];
+    formule=f;
+    return f;
 }
 function testCalculerNbEtapes(exp) {
     var nb = calculerNbEtapesMax(exp);
