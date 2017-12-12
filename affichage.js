@@ -238,3 +238,12 @@ function changerFormule(){
     aVerif = [];
 
 }
+
+function formuleAleatoire(){
+	var choix = obtenirFormuleAleatoire();
+	localStorage.setItem("formule",choix);
+	viderInterface();
+    affichePremierElem(choix);
+    nbBranche = 0;
+    aVerif = [];
+}
