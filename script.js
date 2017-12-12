@@ -42,6 +42,7 @@ function init() {
     var expr2 = "(p∨(q→¬p))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))";
     */
 
+    testResoudreEquation("u∧(w→v)∧(t→v)∧(u→(w∨t))");
    // getScores();
    // reinitialiserScores();
    // getScores();
@@ -303,8 +304,16 @@ function trouverElement(exp, is_elt2) {
         } else if (exp[0] === "(") {
             ind_par_f = trouverParentheseFermante(exp, 0);
             ind_par_o = 0;
-            elt = exp.substr(ind_par_o + 1, ind_par_f - 1);
-            taille = taille + elt.length + 2;
+            if (ind_par_f == exp.length-1){
+                elt = exp.substr(ind_par_o + 1, ind_par_f - 1);
+                taille = taille + elt.length + 2;
+            }
+            else{
+                elt = exp;
+                taille = exp.length;
+            }
+
+
         }else {
             neg = false;
             elt = exp;
