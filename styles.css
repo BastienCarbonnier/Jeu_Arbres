@@ -34,5 +34,10 @@
 }
 
 #menu{
-	background-color: #f1f1f1;
+	background-color: #98dafc;
+	padding : 15px ;
+}
+
+body{
+	margin :0px;
 }
