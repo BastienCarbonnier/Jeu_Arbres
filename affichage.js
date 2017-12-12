@@ -234,5 +234,7 @@ function changerFormule(){
 
 	viderInterface();
     affichePremierElem(choix);
+    nbBranche = 0;
+    aVerif = [];
 
 }
