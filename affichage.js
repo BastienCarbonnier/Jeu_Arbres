@@ -64,15 +64,15 @@ function afficheElem(parent, formule, pos, listeForm){
 
 	if(pos==="gauche"){
 		element.classList.add('filsGauche');
-		element.innerHTML = "<b>/</b>" + element.innerHTML;
+		element.innerHTML = "<b></b>" + element.innerHTML;
 	}
 	if(pos==="droite"){
 		element.classList.add('filsDroit');
-		element.innerHTML = "<b>\\</b>" + element.innerHTML;
+		element.innerHTML = "<b></b>" + element.innerHTML;
 	}
 
 	if(pos==="et"){
-		element.innerHTML = "<b>|</b>" + element.innerHTML;
+		element.innerHTML = "<b></b>" + element.innerHTML;
 	}
 
 	if(pos==="neutre"){
