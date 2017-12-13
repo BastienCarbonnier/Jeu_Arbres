@@ -12,9 +12,10 @@
 	text-align : center;
 }
 
-.texteForm:hover{
+.cliquable:hover{
 	background-color : lightgrey;
 }
+
 
 .filsGauche{
 	float : left;
@@ -31,7 +32,7 @@
 }
 
 .actif{
-	background-color: green;
+	background-color: #ba9077;
 }
 
 #menu{

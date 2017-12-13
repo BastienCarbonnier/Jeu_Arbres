@@ -33,6 +33,7 @@ function affichage(event, formule){
 			ListForm.push(divForm.children[i]);
 		}
 		divForm.children[i].setAttribute('onclick','');
+		divForm.children[i].classList.remove('cliquable');
 	}
 
 
@@ -93,6 +94,7 @@ function afficheElem(parent, formule, pos, listeForm){
 		}else{
 			form.setAttribute('onclick','contradiction(event);');
 		}
+		form.classList.add('cliquable');
 	}
 
 
@@ -105,6 +107,7 @@ function afficheElem(parent, formule, pos, listeForm){
 	}else{
 		texteForm.setAttribute('onclick','contradiction(event);');
 	}
+	texteForm.classList.add('cliquable');
 
 	divFormules.appendChild(texteForm);
 
@@ -142,6 +145,7 @@ function suiteEt(parent, formule){
 	}else{
 		texteForm.setAttribute('onclick','contradiction(event);');
 	}
+	texteForm.classList.add('cliquable');
 
 	
 	divFormules.appendChild(texteForm);
@@ -219,6 +223,8 @@ function contradiction(event){
 					nbBranche--;
 					if (nbBranche==0) {
 						alert("Toutes les contradictions ont été trouvées, la formule est valide !");
+						var score = document.getElementById("score");
+						score.innerHTML = getScoreMin();
 					}
 					aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
 					elem.setAttribute('onclick','');
