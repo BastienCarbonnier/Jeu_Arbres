@@ -26,7 +26,9 @@ function init() {
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
     afficheMenu();
+
     affichePremierElem(expression);
+    window.onresize = actualiserLiens;
 
     /** Test parserExpressionEnDeux
     testExpression("(a∧b)∧¬(bvc)");

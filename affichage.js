@@ -1,5 +1,13 @@
 var aVerif = [];
 var nbBranche = 1;
+var svg;
+var tabLien = [];
+
+
+function Lien(el1,el2) {
+    this.el1 = el1;
+    this.el2 = el2;
+}
 
 function affichage(event, formule){
 
@@ -8,7 +16,7 @@ function affichage(event, formule){
 	var elem2 = exp.elt2;
 	var symb = exp.symbole;
 	var el = event.target.parentElement.parentElement;
-	console.log(el);
+	//console.log(el);
 	var parent = el.parentElement;
 
 	parent.removeChild(el);
@@ -108,6 +116,13 @@ function afficheElem(parent, formule, pos, listeForm){
 
 	//interface.appendChild(element);
 	parent.appendChild(element);
+
+	if(pos!=="neutre"){
+		//creerLien(parent,element);
+		var lien = new Lien(parent,element);
+		tabLien.push(lien);
+	}
+
 }
 
 function suiteEt(parent, formule){
@@ -128,12 +143,19 @@ function suiteEt(parent, formule){
 		texteForm.setAttribute('onclick','contradiction(event);');
 	}
 
+	
 	divFormules.appendChild(texteForm);
+	
 
 }
 
 function affichePremierElem(formule){
 	liste = [];
+	svg = document.createElementNS('http://www.w3.org/2000/svg', "svg");
+		svg.setAttribute("height",interface.scrollHeight + 100);
+		svg.setAttribute("width","100%");
+		svg.setAttribute('id','monsvg');
+	interface.appendChild(svg);
 	afficheElem(interface, formule, "neutre",liste);
 }
 
@@ -142,6 +164,7 @@ function affichageOu(el, form1, form2, listeForm){
 	afficheElem(divFils,form1,"gauche",listeForm);
 	afficheElem(divFils,form2,"droite",listeForm);
 	nbBranche++; //on obtient une branche supplémentaire
+	actualiserLiens();
 
 }
 
@@ -151,6 +174,7 @@ function affichageEt(el, form1, form2, listeForm){
 	//divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
 	afficheElem(divFils,form1,"et",listeForm);
 	suiteEt(divFils,form2);
+	actualiserLiens();
 }
 
 function estUnLitteral(txt){
@@ -252,4 +276,80 @@ function formuleAleatoire(){
     affichePremierElem(choix);
     nbBranche = 1;
     aVerif = [];
+}
+
+function creerLien(parent,element){
+    //var svg = document.createElement('svg');
+
+    
+	var formulesParent = parent.parentElement.children[1];
+
+	var posPere = getPosition(formulesParent);
+	var posFils = getPosition(element);
+	var posInterface = getPosition(interface);
+	//console.log(posSVG);
+	console.log(formulesParent);
+	console.log(posPere);
+	console.log(posFils);
+
+
+	var xp = posPere.x+Math.trunc(formulesParent.clientWidth/2) - posInterface.x;
+	var yp = posPere.y+formulesParent.clientHeight - posInterface.y;
+
+	var xf = posFils.x+Math.trunc(element.clientWidth/2) - posInterface.x;
+	var yf = posFils.y- posInterface.y;
+
+	//svg.setAttribute('height',Math.abs(xp-xf));
+	//svg.setAttribute('width',Math.abs(yp-yf));
+
+	//var codeSvg = '<line x1="'+xp+'" y1="'+yp+'" x2="'+xf+'" y2="'+yf+'" stroke="black"/>';
+	//console.log(codeSvg);
+
+	var line = document.createElementNS('http://www.w3.org/2000/svg', "line");
+		line.setAttribute('x1',xp);
+		line.setAttribute('y1',yp);
+		line.setAttribute('x2',xf);
+		line.setAttribute('y2',yf);
+		line.setAttribute('stroke','black');
+
+	svg.appendChild(line);
+	//interface.appendChild(svg);
+	//svg.innerHTML= codeSvg + svg.innerHTML;
+
+
+}
+
+function actualiserLiens(){
+	svg.innerHTML = ""; //on détruit tous les traits précédents
+	for(var i=0;i<tabLien.length;i++){
+		creerLien(tabLien[i].el1,tabLien[i].el2);
+	}
+	svg.setAttribute("height",interface.scrollHeight + 100);
+}
+
+
+function getPosition(el) {
+  var xPos = 0;
+  var yPos = 0;
+ 
+  while (el) {
+    if (el.tagName == "BODY") {
+      // deal with browser quirks with body/window/document and page scroll
+      var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
+      var yScroll = el.scrollTop || document.documentElement.scrollTop;
+ 
+      xPos += (el.offsetLeft - xScroll + el.clientLeft);
+      yPos += (el.offsetTop - yScroll + el.clientTop);
+    } else {
+      // for all other non-BODY elements
+      xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
+      yPos += (el.offsetTop - el.scrollTop + el.clientTop);
+    }
+ 
+    el = el.offsetParent;
+  }
+  return {
+    x: xPos,
+    y: yPos
+  };
 }

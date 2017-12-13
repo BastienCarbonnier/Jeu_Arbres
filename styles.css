@@ -26,6 +26,7 @@
 
 .element{
 	margin : 20px;
+	margin-top: 30px;
 	text-align : center;
 }
 
@@ -40,4 +41,13 @@
 
 body{
 	margin :0px;
+}
+
+svg{
+	position: absolute;
+	z-index: -100;
+}
+
+line{
+	position: absolute;
 }
