@@ -177,6 +177,14 @@ function affichageEt(el, form1, form2, listeForm){
 	actualiserLiens();
 }
 
+function affichageFin(el){
+	divFils = el.lastChild;
+	listeVide = [];
+	//divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
+	afficheElem(divFils,"⊥","et",listeVide);
+	actualiserLiens();
+}
+
 function estUnLitteral(txt){
 
 	switch(txt.length){
@@ -207,8 +215,7 @@ function contradiction(event){
 				var e2 = elem.innerHTML;
 				if(e1.slice(1)===e2 || e2.slice(1)===e1){ //si pareil sauf premier char (le non)
 					console.log("contradiction ! ");
-					liste  = [];
-					affichageEt(elem.parentElement.parentElement,"⊥","",liste);
+					affichageFin(elem.parentElement.parentElement);
 					nbBranche--;
 					if (nbBranche==0) {
 						alert("Toutes les contradictions ont été trouvées, la formule est valide !");
