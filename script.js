@@ -35,239 +35,31 @@ function init() {
     testExpression("¬a");
     testExpression("¬a∧b");
     testExpression("¬(av(c∧b))");
-    */
-    /* Test resoudreEquation */
-    //testResoudreEquation("av(c∧b)");
-    //testResoudreEquation("¬(a→(c∧b))");
-    //testParserExpression("¬(a→(¬c∧b))");
-    /*var expr = "¬(((A→C)∨(B→C))→((A∨B)→C))";
-    var expr2 = "(p∨(q→¬p))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))";
-    */
-
+    *
+    * Test resoudreEquation *
+    testResoudreEquation("av(c∧b)");
+    testResoudreEquation("¬(a→(c∧b))");
     testResoudreEquation("u∧(w→v)∧(t→v)∧(u→(w∨t))");
-   // getScores();
-   // reinitialiserScores();
-   // getScores();
-}
-function getScores(){
-    for (var i in formules) {
-        console.log("Score max pour "+formules[i]+" = "+localStorage.getItem(formules[i]));
-    }
-}
-function getScoreMin(){
-    return Number(localStorage.getItem(localStorage.getItem("formule")));
+    testParserExpression("¬(a→(¬c∧b))");
+    var expr = "¬(((A→C)∨(B→C))→((A∨B)→C))";
+    var expr2 = "(p∨(q→¬p))∨((p∧(p→q)∧((p→q)→r))→(p∧q∧r))";
+
+    * Tests Scores *
+    getScores();
+    reinitialiserScores();
+    getScores();
+    */
+
+
+
 }
 
-function reinitialiserScores() {
-    for (var i in formules) {
-        localStorage.setItem(formules[i], Infinity);
-    }
-}
-function calculerScore(){
-    if (Number(localStorage.getItem("score_courant"))<getScoreMin()){
-        localStorage.setItem(localStorage.getItem("formule"),Number(localStorage.getItem("score_courant")));
-        console.log(localStorage.getItem("score_courant"));
-        return true;
-    }
-    return false;
-}
+/********* Element *********/
+
 function Element(val, neg, taille) {
     this.val = val;
     this.neg = neg;
     this.taille = taille;
-}
-function Expression(elt1, symbole, elt2, neg) {
-    this.elt1 = elt1;
-    this.symbole = symbole;
-    this.elt2 = elt2;
-    this.neg = neg;
-}
-function ExpressionAffichage(elt1, symbole, elt2) {
-    this.elt1 = elt1;
-    this.symbole = symbole;
-    this.elt2 = elt2;
-}
-
-function afficherExpressionAffichage(exp) {
-    console.log(exp.elt1 + "     " + exp.symbole + "      " + exp.elt2);
-}
-
-function recupererStringElement(elt) {
-    var val = elt.val;
-
-    var res = "";
-    if (elt.neg) {
-        res += "¬";
-        if (val.length > 1) {
-            res += "(" + val + ")";
-        } else res += val;
-    } else res += val;
-    return res;
-}
-function parserExpression(exp) {
-
-    localStorage.setItem("score_courant", Number(localStorage.getItem("score_courant"))+1);
-    var e = resoudreEquation(exp); // Renvoi une Expression
-    console.log("score : "+localStorage.getItem("score_courant"));
-    var elt1_string,
-    elt2_string = "";
-
-    if (e.neg) {
-        elt1_string = recupererStringElement(e.elt1);
-        symbole = "¬";
-    } else {
-        elt1_string = recupererStringElement(e.elt1);
-        elt2_string = recupererStringElement(e.elt2);
-        symbole = e.symbole;
-    }
-
-    return new ExpressionAffichage(elt1_string, symbole, elt2_string);
-}
-
-function recupererStringExpressionAffichage(exp_aff) {
-    var res = "";
-    if (exp_aff.symbole === "¬") {
-        res = "¬(" + exp_aff.elt1 + ")";
-    } else {
-        res = exp_aff.elt1 + exp_aff.symbole + exp_aff.elt2;
-    }
-    return res;
-}
-function inverserElement(elt) {
-    return new Element(elt.val, !elt.neg, elt.taille);
-}
-function supprimerParentheseInutile(exp){
-    var ind_par_f;
-    if (exp[0]=="("){
-        ind_par_f = trouverParentheseFermante(exp,0);
-    }
-    else {
-        return exp;
-    }
-    while (exp[0] == "(" && ind_par_f == exp.length-1) {
-        exp = exp.substring(1,ind_par_f);
-        ind_par_f = trouverParentheseFermante(exp,0);
-    }
-    return exp;
-}
-function resoudreEquation(exp) {
-    var e = parserExpressionEnDeux(exp);
-    afficherExpression(e);
-    var symbole;
-    var neg = false;
-    if (e.neg) {
-        e2 = parserExpressionEnDeux(e.elt1.val);
-
-        switch (e2.symbole) {
-            case "→":
-            elt1 = e2.elt1;
-            elt2 = inverserElement(e2.elt2);
-            symbole = "∧";
-            break;
-            case "∧":
-            elt1 = inverserElement(e2.elt1);
-            elt2 = inverserElement(e2.elt2);
-            symbole = "∨";
-            break;
-            case "∨":
-            elt1 = inverserElement(e2.elt1);
-            elt2 = inverserElement(e2.elt2);
-            symbole = "∧";
-            break;
-            case "¬":
-            elt1 = inverserElement(e2.elt1);
-            symbole = "¬";
-            neg = true;
-            break;
-            default:
-            console.log("Erreur lors de la vérification des symboles : ");
-            console.log("Symbole reçu = " + e2.symbole);
-        }
-    } else {
-        switch (e.symbole) {
-            case "→":
-            elt1 = inverserElement(e.elt1);
-            elt2 = e.elt2;
-            symbole = "∨";
-            break;
-            default:
-            elt1 = e.elt1;
-            elt2 = e.elt2;
-            symbole = e.symbole;
-        }
-    }
-
-    return new Expression(elt1, symbole, elt2, neg);
-}
-
-function parserExpressionEnDeux(exp_string) {
-    var symbole;
-    var neg = false;
-    var ind_par_f = trouverParentheseFermante(exp_string,0);
-    if (exp_string[0]=="(" && ind_par_f == exp_string.length-1)
-        exp_string = supprimerParentheseInutile(exp_string);
-    elt1 = trouverElement(exp_string, false);
-
-    if (elt1 === "undefined") {
-        return "undefined";
-    }
-
-    if (elt1.taille === exp_string.length && elt1.neg) {
-        symbole = "¬";
-        elt2 = "";
-        neg = true;
-    } else {
-        symbole = exp_string[elt1.taille];
-        var exp = exp_string.substr(elt1.taille+1);
-        elt2 = trouverElement(exp, true);
-    }
-
-    return new Expression(elt1, symbole, elt2, neg);
-}
-
-function rendreBienParenthesee(exp) {
-    var res = exp;
-    var ind_sym;
-    var fin = exp.length;
-    var debut = 0;
-    if (exp[0] === "(" || (exp[0] === "¬" && exp[1] === "(")) {
-        debut = trouverParentheseOuvrante(exp);
-        fin = trouverParentheseFermante(exp, debut);
-        if (exp.length == fin + 1) return res;
-        ind_sym = trouverProchainSymbole(exp.substr(fin));
-    } else {
-        ind_sym = trouverProchainSymbole(exp);
-    }
-    var ind_sym2;
-    if (ind_sym != -1) {
-        if (exp[ind_sym + 1] === "(") {
-            var ind_par_f = trouverParentheseFermante(exp, ind_sym + 1);
-            if (ind_par_f != exp.length - 1) {
-                ind_sym2 = trouverProchainSymbole(exp.substr(ind_sym + 1));
-                if (ind_sym2 != -1) {
-                    res =
-                    exp.substr(0, ind_sym + 1) +
-                    "(" +
-                    exp.substr(ind_sym + 2) +
-                    ")";
-                }
-            }
-        } else {
-            ind_sym2 = trouverProchainSymbole(exp.substr(ind_sym + 1));
-            if (ind_sym2 != -1) {
-                res =
-                exp.substr(0, ind_sym + 1) +
-                "(" +
-                exp.substr(ind_sym + 2) +
-                ")";
-            }
-        }
-    }
-    return res;
-}
-
-function trouverParentheseOuvrante(exp) {
-    return exp.indexOf("(");
 }
 
 function trouverElement(exp, is_elt2) {
@@ -358,29 +150,47 @@ function trouverElement(exp, is_elt2) {
     return new Element(elt, neg, taille);
 }
 
-function trouverProchainSymbole(exp) {
-    var ops = ["∨", "∧", "→"];
-    var index = Infinity;
-    for (var i in ops) {
-        var pos = exp.indexOf(ops[i]);
-        if (pos != -1) {
-            index = Math.min(index, pos);
-        }
-    }
-    if (index == Infinity) return -1;
-    return index;
+function inverserElement(elt) {
+    return new Element(elt.val, !elt.neg, elt.taille);
 }
 
-function trouverParentheseFermante(exp, indice) {
-    var trouve = false;
-    var par = 0;
-    exp = exp.substr(indice);
-    for (var i in exp) {
-        if (exp[i] === "(") par++;
-        else if (exp[i] === ")") par--;
-        if (par == 0) break;
+function recupererStringElement(elt) {
+    var val = elt.val;
+
+    var res = "";
+    if (elt.neg) {
+        res += "¬";
+        if (val.length > 1) {
+            res += "(" + val + ")";
+        } else res += val;
+    } else res += val;
+    return res;
+}
+
+/*********** Expression ************/
+
+function Expression(elt1, symbole, elt2, neg) {
+    this.elt1 = elt1;
+    this.symbole = symbole;
+    this.elt2 = elt2;
+    this.neg = neg;
+}
+
+
+function ExpressionAffichage(elt1, symbole, elt2) {
+    this.elt1 = elt1;
+    this.symbole = symbole;
+    this.elt2 = elt2;
+}
+
+function recupererStringExpressionAffichage(exp_aff) {
+    var res = "";
+    if (exp_aff.symbole === "¬") {
+        res = "¬(" + exp_aff.elt1 + ")";
+    } else {
+        res = exp_aff.elt1 + exp_aff.symbole + exp_aff.elt2;
     }
-    return Number(i) + Number(indice);
+    return res;
 }
 
 function afficherExpression(exp) {
@@ -388,15 +198,109 @@ function afficherExpression(exp) {
 
     console.log(exp.elt1.neg + "     " + exp.symbole + "      " + exp.elt2.neg);
 }
-function verifMeilleurScore(nb_mis, exp_string) {
-    //var max = calculerNbEtapesMax(exp_string);
-    var nb_save = localStorage.getItem(exp_string);
-    if (nb_mis < nb_save) {
-        nb_save = nb_mis;
-        return true;
-    }
-    return false;
+
+function afficherExpressionAffichage(exp) {
+    console.log(exp.elt1 + "     " + exp.symbole + "      " + exp.elt2);
 }
+
+/********* Resolution **********/
+
+
+function parserExpression(exp) {
+
+    localStorage.setItem("score_courant", Number(localStorage.getItem("score_courant"))+1);
+    var e = resoudreEquation(exp); // Renvoi une Expression
+    console.log("score : "+localStorage.getItem("score_courant"));
+    var elt1_string,
+    elt2_string = "";
+
+    if (e.neg) {
+        elt1_string = recupererStringElement(e.elt1);
+        symbole = "¬";
+    } else {
+        elt1_string = recupererStringElement(e.elt1);
+        elt2_string = recupererStringElement(e.elt2);
+        symbole = e.symbole;
+    }
+
+    return new ExpressionAffichage(elt1_string, symbole, elt2_string);
+}
+
+function resoudreEquation(exp) {
+    var e = parserExpressionEnDeux(exp);
+    afficherExpression(e);
+    var symbole;
+    var neg = false;
+    if (e.neg) {
+        e2 = parserExpressionEnDeux(e.elt1.val);
+
+        switch (e2.symbole) {
+            case "→":
+                elt1 = e2.elt1;
+                elt2 = inverserElement(e2.elt2);
+                symbole = "∧";
+            break;
+            case "∧":
+                elt1 = inverserElement(e2.elt1);
+                elt2 = inverserElement(e2.elt2);
+                symbole = "∨";
+            break;
+            case "∨":
+                elt1 = inverserElement(e2.elt1);
+                elt2 = inverserElement(e2.elt2);
+                symbole = "∧";
+            break;
+            case "¬":
+                elt1 = inverserElement(e2.elt1);
+                symbole = "¬";
+                neg = true;
+            break;
+            default:
+                console.log("Erreur lors de la vérification des symboles : ");
+                console.log("Symbole reçu = " + e2.symbole);
+        }
+    } else {
+        switch (e.symbole) {
+            case "→":
+                elt1 = inverserElement(e.elt1);
+                elt2 = e.elt2;
+                symbole = "∨";
+            break;
+            default:
+                elt1 = e.elt1;
+                elt2 = e.elt2;
+                symbole = e.symbole;
+        }
+    }
+
+    return new Expression(elt1, symbole, elt2, neg);
+}
+
+function parserExpressionEnDeux(exp_string) {
+    var symbole;
+    var neg = false;
+    var ind_par_f = trouverParentheseFermante(exp_string,0);
+    if (exp_string[0]=="(" && ind_par_f == exp_string.length-1)
+        exp_string = supprimerParentheseInutile(exp_string);
+    elt1 = trouverElement(exp_string, false);
+
+    if (elt1 === "undefined") {
+        return "undefined";
+    }
+
+    if (elt1.taille === exp_string.length && elt1.neg) {
+        symbole = "¬";
+        elt2 = "";
+        neg = true;
+    } else {
+        symbole = exp_string[elt1.taille];
+        var exp = exp_string.substr(elt1.taille+1);
+        elt2 = trouverElement(exp, true);
+    }
+
+    return new Expression(elt1, symbole, elt2, neg);
+}
+
 // A voir pour la suite ...
 function calculerNbEtapesMax(exp_string) {
     if (exp_string.length <= 2) return 0;
@@ -422,11 +326,33 @@ function calculerNbEtapesMax(exp_string) {
     }
 }
 
-function obtenirFormuleAleatoire() {
-    var f = formules[Math.floor(Math.random() * formules.length)];
-    localStorage.setItem("formule",f);
-    return f;
+/********** Scores **********/
+
+function getScores(){
+    for (var i in formules) {
+        console.log("Score max pour "+formules[i]+" = "+localStorage.getItem(formules[i]));
+    }
 }
+function getScoreMin(){
+    return Number(localStorage.getItem(localStorage.getItem("formule")));
+}
+
+function reinitialiserScores() {
+    for (var i in formules) {
+        localStorage.setItem(formules[i], Infinity);
+    }
+}
+function calculerScore(){
+    if (Number(localStorage.getItem("score_courant"))<getScoreMin()){
+        localStorage.setItem(localStorage.getItem("formule"),Number(localStorage.getItem("score_courant")));
+        console.log(localStorage.getItem("score_courant"));
+        return true;
+    }
+    return false;
+}
+
+/********** Tests **********/
+
 function testCalculerNbEtapes(exp) {
     var nb = calculerNbEtapesMax(exp);
     console.log("nb d'étapes = " + nb);
@@ -446,4 +372,56 @@ function testParserExpressionEnDeux(expression) {
 function testResoudreEquation(expression) {
     exp = resoudreEquation(expression);
     afficherExpression(exp);
+}
+
+/********** Outils **********/
+
+function obtenirFormuleAleatoire() {
+    var f = formules[Math.floor(Math.random() * formules.length)];
+    localStorage.setItem("formule",f);
+    return f;
+}
+
+function supprimerParentheseInutile(exp){
+    var ind_par_f;
+    if (exp[0]=="("){
+        ind_par_f = trouverParentheseFermante(exp,0);
+    }
+    else {
+        return exp;
+    }
+    while (exp[0] == "(" && ind_par_f == exp.length-1) {
+        exp = exp.substring(1,ind_par_f);
+        ind_par_f = trouverParentheseFermante(exp,0);
+    }
+    return exp;
+}
+
+function trouverParentheseOuvrante(exp) {
+    return exp.indexOf("(");
+}
+
+function trouverProchainSymbole(exp) {
+    var ops = ["∨", "∧", "→"];
+    var index = Infinity;
+    for (var i in ops) {
+        var pos = exp.indexOf(ops[i]);
+        if (pos != -1) {
+            index = Math.min(index, pos);
+        }
+    }
+    if (index == Infinity) return -1;
+    return index;
+}
+
+function trouverParentheseFermante(exp, indice) {
+    var trouve = false;
+    var par = 0;
+    exp = exp.substr(indice);
+    for (var i in exp) {
+        if (exp[i] === "(") par++;
+        else if (exp[i] === ")") par--;
+        if (par == 0) break;
+    }
+    return Number(i) + Number(indice);
 }
