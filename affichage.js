@@ -222,9 +222,20 @@ function contradiction(event){
 					affichageFin(elem.parentElement.parentElement);
 					nbBranche--;
 					if (nbBranche==0) {
-						alert("Toutes les contradictions ont été trouvées, la formule est valide !");
 						var score = document.getElementById("score");
-						score.innerHTML = getScoreMin();
+						var scoreMin = getScoreMin();
+						var scoreCourant = getScoreCourant();
+						if(calculerScore()){
+							//joueur gagnant
+							score.innerHTML = scoreCourant;
+							alert("Toutes les contradictions ont été trouvées, la formule est valide !<br> Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
+
+						}
+						else{
+							alert("Toutes les contradictions ont été trouvées, la formule est valide !<br> vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
+
+						}
+
 					}
 					aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
 					elem.setAttribute('onclick','');
