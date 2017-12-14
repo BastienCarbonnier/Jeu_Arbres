@@ -25,12 +25,13 @@ function init() {
     localStorage.setItem("score_courant",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
-    initialiserScore();
+
     afficheMenu();
 
 
 
     affichePremierElem(expression);
+    initialiserScore();
     window.onresize = actualiserLiens;
 
     /** Test parserExpressionEnDeux
@@ -116,7 +117,7 @@ function trouverElement(exp, is_elt2) {
             elt = exp;
             taille = exp.length;
         }
-    } else {
+    } else { // Si elt 1
         if (exp[0] === "¬" && exp[1] === "(") {
             ind_par_f = trouverParentheseFermante(exp, 1) - 1;
             ind_par_o = 1;

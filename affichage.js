@@ -225,22 +225,25 @@ function contradiction(event){
 						var score = document.getElementById("score");
 						var scoreMin = getScoreMin();
 						var scoreCourant = getScoreCourant();
+                        var formule = localStorage.getItem("formule");
                         if (scoreMin ===Infinity){
-                            alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Vous avez inscrit un nouveau meilleur score de "+scoreCourant);
+                            calculerScore();
+                            alert("Toutes les contradictions ont été trouvées ! \nLa formule : "+formule.substring(2,formule.length-1)+" est valide !\nVous avez inscrit un nouveau meilleur score de "+scoreCourant);
                         }
                         else{
                             if(calculerScore()){
     							//joueur gagnant
     							score.innerHTML = scoreCourant;
-    							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
+    							alert("Toutes les contradictions ont été trouvées ! \nLa formule : "+formule.substring(2,formule.length-1)+" est valide !\nBravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
 
     						}
     						else{
-    							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
+    							alert("Toutes les contradictions ont été trouvées ! \nLa formule : "+formule.substring(2,formule.length-1)+" est valide !\nVous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
 
     						}
                         }
 
+                        initialiserScore();
 
 					}
                     // a regarder
