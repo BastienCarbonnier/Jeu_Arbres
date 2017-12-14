@@ -337,6 +337,9 @@ function getScoreMin(){
     return Number(localStorage.getItem(localStorage.getItem("formule")));
 }
 
+function getScoreCourant(){
+    return Number(localStorage.getItem("score_courant"));
+}
 function reinitialiserScores() {
     for (var i in formules) {
         localStorage.setItem(formules[i], Infinity);
