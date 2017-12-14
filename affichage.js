@@ -16,7 +16,6 @@ function affichage(event, formule){
 	var elem2 = exp.elt2;
 	var symb = exp.symbole;
 	var el = event.target.parentElement.parentElement;
-	//console.log(el);
 	var parent = el.parentElement;
 
 	parent.removeChild(el);
@@ -46,11 +45,6 @@ function affichage(event, formule){
 	}
 	else
 		affichageEt(el,elem1,elem2,ListForm);
-
-	//var txt = el.getElementsByClass("texteForm")[0].innerHTML;
-
-
-
 
 }
 
@@ -131,7 +125,6 @@ function afficheElem(parent, formule, pos, listeForm){
 function suiteEt(parent, formule){
 
 	var element = parent.children[0]; //première partie du ET
-	//console.log(parent.children);
 
 	var divFormules = element.children[1]; //première partie de l'elem : divFormules
 
@@ -177,7 +170,10 @@ function affichageEt(el, form1, form2, listeForm){
 	listeVide = [];
 	//divFils.innerHTML = "<b>|</b>" + divFils.innerHTML;
 	afficheElem(divFils,form1,"et",listeForm);
-	suiteEt(divFils,form2);
+	if(form2!==undefined){
+		suiteEt(divFils,form2);
+	}
+	
 	actualiserLiens();
 }
 
@@ -218,8 +214,14 @@ function contradiction(event){
 				var e1 = aVerif[0].innerHTML;
 				var e2 = elem.innerHTML;
 				if(e1.slice(1)===e2 || e2.slice(1)===e1){ //si pareil sauf premier char (le non)
-					console.log("contradiction ! ");
 					affichageFin(elem.parentElement.parentElement);
+                	var divForm = elem.parentElement;
+
+					for(var i =0; i<divForm.children.length; i++){
+						divForm.children[i].setAttribute('onclick','');
+						divForm.children[i].classList.remove('cliquable');
+					}
+
 					nbBranche--;
 					if (nbBranche==0) {
 						var score = document.getElementById("score");
@@ -246,11 +248,6 @@ function contradiction(event){
                         initialiserScore();
 
 					}
-                    // a regarder
-					if(aVerif[0] !== undefined){
-						aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
-					}
-					elem.setAttribute('onclick','');
 
 					resetAVerif();
 				}else{
@@ -280,7 +277,6 @@ function resetAVerif(){
 */
 function afficheMenu(){
 	var dropList = document.getElementById("choix");
-	console.log(dropList);
 
 	for(var i=0; i<formules.length; i++){
 		var form = document.createElement('option'); //affichage première formule
@@ -331,18 +327,11 @@ function initialiserScore(){
 }
 
 function creerLien(parent,element){
-    //var svg = document.createElement('svg');
-
-
 	var formulesParent = parent.parentElement.children[1];
 
 	var posPere = getPosition(formulesParent);
 	var posFils = getPosition(element);
 	var posInterface = getPosition(interface);
-	//console.log(posSVG);
-	console.log(formulesParent);
-	console.log(posPere);
-	console.log(posFils);
 
 
 	var xp = posPere.x+Math.trunc(formulesParent.clientWidth/2) - posInterface.x;
@@ -350,12 +339,6 @@ function creerLien(parent,element){
 
 	var xf = posFils.x+Math.trunc(element.clientWidth/2) - posInterface.x;
 	var yf = posFils.y- posInterface.y;
-
-	//svg.setAttribute('height',Math.abs(xp-xf));
-	//svg.setAttribute('width',Math.abs(yp-yf));
-
-	//var codeSvg = '<line x1="'+xp+'" y1="'+yp+'" x2="'+xf+'" y2="'+yf+'" stroke="black"/>';
-	//console.log(codeSvg);
 
 	var line = document.createElementNS('http://www.w3.org/2000/svg', "line");
 		line.setAttribute('x1',xp);
@@ -365,9 +348,6 @@ function creerLien(parent,element){
 		line.setAttribute('stroke','black');
 
 	svg.appendChild(line);
-	//interface.appendChild(svg);
-	//svg.innerHTML= codeSvg + svg.innerHTML;
-
 
 }
 
