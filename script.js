@@ -25,12 +25,13 @@ function init() {
     localStorage.setItem("score_courant",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
-    initialiserScore();
+
     afficheMenu();
 
 
 
     affichePremierElem(expression);
+    initialiserScore();
     window.onresize = actualiserLiens;
 
     /** Test parserExpressionEnDeux
