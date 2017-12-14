@@ -215,8 +215,7 @@ function parserExpression(exp) {
     localStorage.setItem("score_courant", Number(localStorage.getItem("score_courant"))+1);
     var e = resoudreEquation(exp); // Renvoi une Expression
     console.log("score : "+localStorage.getItem("score_courant"));
-    var elt1_string,
-    elt2_string = "";
+    var elt1_string,elt2_string;
 
     if (e.neg) {
         elt1_string = recupererStringElement(e.elt1);
