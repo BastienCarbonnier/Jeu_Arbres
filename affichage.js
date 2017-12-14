@@ -228,11 +228,11 @@ function contradiction(event){
 						if(calculerScore()){
 							//joueur gagnant
 							score.innerHTML = scoreCourant;
-							alert("Toutes les contradictions ont été trouvées, la formule est valide !<br> Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
+							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
 
 						}
 						else{
-							alert("Toutes les contradictions ont été trouvées, la formule est valide !<br> vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
+							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
 
 						}
 
@@ -293,6 +293,9 @@ function changerFormule(){
     affichePremierElem(choix);
     nbBranche = 1;
     aVerif = [];
+
+    var score = document.getElementById("score");
+	score.innerHTML = getScoreMin();
 
 }
 
