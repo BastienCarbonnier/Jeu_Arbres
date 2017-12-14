@@ -164,9 +164,9 @@ function recupererStringElement(elt) {
     var res = "";
     if (elt.neg) {
         res += "¬";
-        if (val.length > 1) {
+        if (val.length > 2) {
             res += "(" + val + ")";
-        } else res += val;
+        }else res += val;
     } else res += val;
     return res;
 }
