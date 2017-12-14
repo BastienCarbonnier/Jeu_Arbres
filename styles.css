@@ -37,7 +37,6 @@
 
 #menu{
 	background-color: #98dafc;
-	padding : 15px ;
 }
 
 body{
@@ -51,4 +50,23 @@ svg{
 
 line{
 	position: absolute;
+}
+
+#divScore{
+	float:right;
+	margin:0px;
+}
+
+#divTitre{
+	text-align:center;
+	background-color: #98dafc;
+	margin: 0px;
+}
+
+#divOption{
+	padding : 15px ;
+}
+
+h2{
+	margin:0px;
 }
