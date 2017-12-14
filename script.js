@@ -25,7 +25,10 @@ function init() {
     localStorage.setItem("score_courant",0);
     var expression = obtenirFormuleAleatoire();
     interface = document.getElementById("interface");
+    initialiserScore();
     afficheMenu();
+
+
 
     affichePremierElem(expression);
     window.onresize = actualiserLiens;

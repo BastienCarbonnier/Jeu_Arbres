@@ -147,9 +147,9 @@ function suiteEt(parent, formule){
 	}
 	texteForm.classList.add('cliquable');
 
-	
+
 	divFormules.appendChild(texteForm);
-	
+
 
 }
 
@@ -225,20 +225,27 @@ function contradiction(event){
 						var score = document.getElementById("score");
 						var scoreMin = getScoreMin();
 						var scoreCourant = getScoreCourant();
-						if(calculerScore()){
-							//joueur gagnant
-							score.innerHTML = scoreCourant;
-							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
+                        if (scoreMin ===Infinity){
+                            alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Vous avez inscrit un nouveau meilleur score de "+scoreCourant);
+                        }
+                        else{
+                            if(calculerScore()){
+    							//joueur gagnant
+    							score.innerHTML = scoreCourant;
+    							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Bravo vous avez battu le meilleur score qui était de "+scoreMin+" avec un score de "+scoreCourant);
 
-						}
-						else{
-							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
+    						}
+    						else{
+    							alert("Toutes les contradictions ont été trouvées, la formule est valide !\n Vous n'avez pas battu le meilleur score qui était de "+scoreMin+". Votre score est de "+scoreCourant);
 
-						}
+    						}
+                        }
+
 
 					}
-					if(aVerif[0]!=="undefined"){
-						aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois												
+                    // a regarder
+					if(aVerif[0] !== undefined){
+						aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
 					}
 					elem.setAttribute('onclick','');
 
@@ -294,24 +301,36 @@ function changerFormule(){
     nbBranche = 1;
     aVerif = [];
 
-    var score = document.getElementById("score");
-	score.innerHTML = getScoreMin();
+    initialiserScore();
 
 }
 
 function formuleAleatoire(){
 	var choix = obtenirFormuleAleatoire();
 	localStorage.setItem("formule",choix);
+    initialiserScore();
 	viderInterface();
     affichePremierElem(choix);
     nbBranche = 1;
     aVerif = [];
 }
+function initialiserScore(){
+    var score = document.getElementById("score");
+    var scoreMin = getScoreMin();
+
+    if (scoreMin === Infinity){
+        score.innerHTML = "---";
+    }
+    else{
+        score.innerHTML = getScoreMin();
+    }
+
+}
 
 function creerLien(parent,element){
     //var svg = document.createElement('svg');
 
-    
+
 	var formulesParent = parent.parentElement.children[1];
 
 	var posPere = getPosition(formulesParent);
@@ -361,13 +380,13 @@ function actualiserLiens(){
 function getPosition(el) {
   var xPos = 0;
   var yPos = 0;
- 
+
   while (el) {
     if (el.tagName == "BODY") {
       // deal with browser quirks with body/window/document and page scroll
       var xScroll = el.scrollLeft || document.documentElement.scrollLeft;
       var yScroll = el.scrollTop || document.documentElement.scrollTop;
- 
+
       xPos += (el.offsetLeft - xScroll + el.clientLeft);
       yPos += (el.offsetTop - yScroll + el.clientTop);
     } else {
@@ -375,7 +394,7 @@ function getPosition(el) {
       xPos += (el.offsetLeft - el.scrollLeft + el.clientLeft);
       yPos += (el.offsetTop - el.scrollTop + el.clientTop);
     }
- 
+
     el = el.offsetParent;
   }
   return {
