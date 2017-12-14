@@ -237,7 +237,9 @@ function contradiction(event){
 						}
 
 					}
-					aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois
+					if(aVerif[0]!=="undefined"){
+						aVerif[0].setAttribute('onclick',''); //on désactive les events pour éviter de faire la contradiction 2 fois												
+					}
 					elem.setAttribute('onclick','');
 
 					resetAVerif();
@@ -283,6 +285,7 @@ function viderInterface(){
 }
 
 function changerFormule(){
+	localStorage.setItem("score_courant",0);
 	var dropList = document.getElementById("choix");
 	var choix = dropList.value;
 	localStorage.setItem("formule",choix);
